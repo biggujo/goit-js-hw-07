@@ -11,5 +11,6 @@
     <orderEntry type="library" name="basiclightbox" level="application" />
     <orderEntry type="library" name="lazysizes" level="application" />
     <orderEntry type="library" name="lodash.js" level="application" />
+    <orderEntry type="library" name="simplelightbox" level="application" />
   </component>
 </module>
