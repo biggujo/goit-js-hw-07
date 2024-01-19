@@ -1,11 +1,13 @@
-import { galleryItems } from './gallery-items.js';
+import { galleryItems } from "./gallery-items.js";
 // Change code below this line
 
-const galleryListRef = document.querySelector(".gallery");
+const galleryListRef: HTMLElement | null = document.querySelector(".gallery");
 
 // * Create gallery
-const galleryElements = createGalleryElements();
-galleryListRef.append(...galleryElements);
+if (galleryListRef) {
+  const galleryElements = createGalleryElements();
+  galleryListRef.append(...galleryElements);
+}
 
 function createGalleryElements() {
   const itemsElArray = [];
@@ -34,12 +36,13 @@ function createGalleryElements() {
   return itemsElArray;
 }
 
-new SimpleLightbox('.gallery a', {
+// @ts-ignore
+new SimpleLightbox(".gallery a", {
   animationSpeed: 150,
   captionsData: "alt",
   captionDelay: 250,
   disableScroll: true,
   scrollZoom: false, // ! false, as there are library-related errors:
-  // ! "simple-lightbox.min.js:1"
+  // ! "simple-lightbox.min.dist:1"
   // ! "Unable to preventDefault inside passive event listener invocation."
 });

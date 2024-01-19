@@ -1,0 +1,14 @@
+{
+  "name": "goit-js-hw-07",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "compile-ts": "tsc --watch"
+  },
+  "repository": "git@github.com:biggujo/goit-js-hw-07.git",
+  "author": "Dmytro Ivashchenko <gen.style22@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^5.3.3"
+  }
+}

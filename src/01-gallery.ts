@@ -1,26 +1,35 @@
-import { galleryItems } from "./gallery-items.js";
+import { GalleryItem, galleryItems } from "./gallery-items.js";
 // Change code below this line
 
-const galleryListRef = document.querySelector(".gallery");
-let currentModalInstance = null; // * Current modal pointer
+const galleryListRef: HTMLElement | null = document.querySelector(".gallery");
+// @ts-ignore
+let currentModalInstance: any = null; // * Current modal pointer
 
-// * Create gallery
-const galleryElements = createGalleryElements();
-galleryListRef.append(...galleryElements);
+if (galleryListRef) {
+  // * Create gallery
+  const galleryElements = createGalleryElements();
 
-// * Listen to image click
-galleryListRef.addEventListener("click", onGalleryClick);
+  galleryListRef.append(...galleryElements);
 
-function onGalleryClick(e) {
+  // * Listen to image click
+  galleryListRef.addEventListener("click", onGalleryClick);
+}
+
+function onGalleryClick(e: Event) {
   e.preventDefault();
 
-  if (!e.target.closest(".gallery__item")) {
+  if (!e.target) {
     return;
   }
 
-  const imageLink = e.target.parentNode.getAttribute("href");
-  const imageAlt = e.target.getAttribute("alt");
+  if (!(<HTMLElement>e.target).closest(".gallery__item")) {
+    return;
+  }
 
+  const imageLink = (<HTMLElement>(<HTMLElement>e.target).parentNode).getAttribute("href");
+  const imageAlt = (e.target as HTMLElement).getAttribute("alt");
+
+  // @ts-ignore
   const modal = basicLightbox.create(`
     <div> 
       <img src="${imageLink}" alt="${imageAlt}">
@@ -33,7 +42,7 @@ function onGalleryClick(e) {
   modal.show();
 }
 
-function onModalShow(instance) {
+function onModalShow(instance: any) {
   // * Save instance for further use
   currentModalInstance = instance;
 
@@ -41,30 +50,34 @@ function onModalShow(instance) {
   document.addEventListener("keydown", onModalInteraction);
 }
 
-function onModalClose(instance) {
+function onModalClose(instance: any) {
   instance.element().removeEventListener("click", onModalInteraction);
   document.removeEventListener("keydown", onModalInteraction);
 }
 
-function onModalInteraction(e) {
+function onModalInteraction(e: KeyboardEvent | MouseEvent): void {
   // * Not LMB or the Escape button
-  if (e.code !== "Escape" && e.button !== 0) {
+  if ("code" in e && e.code !== "Escape") {
+    return;
+  }
+
+  if ("button" in e && e.button !== 0) {
     return;
   }
 
   currentModalInstance.close();
 }
 
-function createGalleryElements() {
-  const itemsElArray = [];
-  const { length } = galleryItems;
+function createGalleryElements(): Array<HTMLElement> {
+  const itemsElArray: Array<HTMLElement> = [];
+  const length: number = galleryItems.length;
 
   for (let i = 0; i < length; i++) {
     const {
       preview: previewSrc,
       original: originalSrc,
       description,
-    } = galleryItems[i];
+    }: GalleryItem = galleryItems[i];
 
     const item = document.createElement("div");
     item.classList.add("gallery__item");
